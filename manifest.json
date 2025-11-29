@@ -1,0 +1,31 @@
+{
+  "name": "Distelkind - Conscious HipHop Dresden",
+  "short_name": "Distelkind",
+  "description": "Wachse, wenn alles schläft. Conscious HipHop aus Dresden - Das digitale Grimoire.",
+  "start_url": "/Distelkind/",
+  "scope": "/Distelkind/",
+  "display": "standalone",
+  "background_color": "#f4e4bc",
+  "theme_color": "#a83f3f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "profile.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "lifestyle"],
+  "lang": "de-DE"
+}

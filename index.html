@@ -31,12 +31,39 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
     
+    <!-- PWA / App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f4e4bc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Distelkind">
+    <link rel="apple-touch-icon" href="profile.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
+
+    <!-- Mobile Splash Screen / Entry Animation -->
+    <div id="mobile-splash" class="mobile-splash hidden">
+        <div class="splash-content">
+            <img src="profile.png" alt="Distelkind" class="splash-logo">
+            <h1 class="splash-title">DISTELKIND</h1>
+            <p class="splash-subtitle">Das digitale Grimoire ist geöffnet</p>
+            <button id="enter-button" class="enter-button">
+                <span class="enter-icon">⚿</span>
+                <span>Bitte eintreten</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Install App Button (Mobile) -->
+    <button id="install-app-btn" class="install-app-btn hidden">
+        <span class="install-icon">📱</span>
+        <span>Als App installieren</span>
+    </button>
 
     <header class="hero-section">
         <div class="banner-container">
@@ -75,8 +102,8 @@
         <div class="music-header">
             <h3>Das Grimoire (Klänge & Texte)</h3>
             <div class="view-toggle">
-                <button id="list-view" class="toggle-btn active" title="Listenansicht">☰</button>
-                <button id="grid-view" class="toggle-btn" title="Kachelansicht">⊞</button>
+                <button id="list-view" class="toggle-btn" title="Listenansicht">☰</button>
+                <button id="grid-view" class="toggle-btn active" title="Kachelansicht">⊞</button>
             </div>
         </div>
         <div class="music-list" id="music-container">
@@ -99,15 +126,62 @@
     <footer>
         <div class="separator-small">✻</div>
         <p>&copy; 2025 Distelkind Art Project | Dresden <span style="color:#a83f3f;">❤</span></p>
+        <p class="footer-subtext">Ein Kunstprojekt von <a href="https://ogerly.github.io/" target="_blank" class="creator-link">DEVmatrose</a></p>
         <div class="footer-links">
             <a href="https://www.youtube.com/channel/UC9S0LUR6NVs4MtO74kz8nJg" target="_blank">YouTube</a> | 
             <a href="https://www.instagram.com/distelkind/" target="_blank">Instagram</a> | 
-            <a href="https://web.telegram.org/k/#@distelkind_orginal" target="_blank">Telegram</a>
+            <a href="https://web.telegram.org/k/#@distelkind_orginal" target="_blank">Telegram</a> | 
+            <a href="https://github.com/ogerly" target="_blank">GitHub</a>
         </div>
     </footer>
 
     <script>
-        let currentView = 'list'; // 'list' oder 'grid'
+        // Mobile Splash Screen & PWA Installation
+        let deferredPrompt;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+        // Zeige Splash Screen auf Mobile bei erstem Besuch
+        if (isMobile && !isStandalone && !sessionStorage.getItem('splashShown')) {
+            document.getElementById('mobile-splash').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Enter Button
+        document.getElementById('enter-button')?.addEventListener('click', () => {
+            const splash = document.getElementById('mobile-splash');
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+                splash.remove();
+                document.body.style.overflow = '';
+            }, 800);
+            sessionStorage.setItem('splashShown', 'true');
+        });
+
+        // PWA Install Button
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-app-btn').classList.remove('hidden');
+        });
+
+        document.getElementById('install-app-btn')?.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('install-app-btn').classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // Service Worker registrieren
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/Distelkind/sw.js').catch(() => {});
+        }
+
+        let currentView = 'grid'; // 'list' oder 'grid'
         let videosData = [];
 
         // YouTube Video-ID aus URL extrahieren
