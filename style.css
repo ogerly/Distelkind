@@ -73,6 +73,16 @@ section.music-section {
 }
 .subline { font-style: italic; font-size: 1.2rem; opacity: 0.9;}
 
+/* Mobile: Banner sichtbar halten */
+@media (max-width: 768px) {
+    .profile-container {
+        margin-top: 1rem;
+    }
+    .banner-container {
+        margin-bottom: 1rem;
+    }
+}
+
 /* Social Links im Hero */
 .social-links {
     display: flex;
