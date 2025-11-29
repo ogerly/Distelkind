@@ -48,6 +48,11 @@ section {
     margin: 0 auto;
 }
 
+section.music-section {
+    max-width: 1400px;
+    padding: 2rem 1.5rem;
+}
+
 /* --- Hero Section --- */
 .hero-section { padding-top: 0; }
 .banner-container { width: 100%; overflow: hidden; border-bottom: 3px double var(--line-color); }
@@ -141,9 +146,36 @@ section {
 .music-list { margin-top: 2rem; text-align: left;}
 .music-grid { 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
     margin-top: 2rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 1400px) {
+    .music-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1399px) {
+    .music-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .music-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .music-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 .song-entry {
     border: 1px solid var(--line-color);
@@ -180,15 +212,31 @@ section {
 
 /* --- Kachelansicht (Grid) --- */
 .song-card {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid var(--line-color);
+    background: rgba(255,255,255,0.3);
+    border: 2px solid var(--line-color);
     overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    position: relative;
+}
+.song-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+.song-card:hover::before {
+    transform: scaleX(1);
 }
 .song-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.25);
     border-color: var(--accent-color);
 }
 .card-link {
@@ -220,32 +268,52 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3rem;
-    color: rgba(255,255,255,0.9);
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    font-size: 4rem;
+    color: rgba(255,255,255,0.95);
+    text-shadow: 0 4px 20px rgba(0,0,0,0.9);
     pointer-events: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(168, 63, 63, 0.85);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 8px;
 }
 .song-card:hover .play-overlay {
-    color: var(--accent-color);
-    transform: translate(-50%, -50%) scale(1.2);
+    background: rgba(168, 63, 63, 1);
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow: 0 0 30px rgba(168, 63, 63, 0.8);
 }
 .card-content {
-    padding: 1rem;
+    padding: 1.2rem;
     text-align: left;
+    background: linear-gradient(to bottom, rgba(244,228,188,0.95), rgba(244,228,188,1));
 }
 .card-title {
     font-family: 'Cinzel Decorative', cursive;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0 0 0.5rem 0;
     line-height: 1.3;
+    color: var(--text-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.6em;
 }
 .card-date {
     color: var(--accent-color);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin: 0;
     font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* --- Kontakt --- */
