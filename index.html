@@ -6,7 +6,7 @@
     <title>DISTELKIND | Conscious HipHop Dresden</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -41,33 +41,9 @@
 
     <section class="music-section">
         <h3>Das Grimoire (Klänge & Texte)</h3>
-        <div class="music-list">
-            
-            <div class="song-entry">
-                <div class="song-header">
-                    <span class="song-title">WACHSE, WENN ALLES SCHLÄFT</span>
-                    <span class="song-date">| Nov 2025</span>
-                </div>
-                <div class="song-links">
-                    <a href="#" target="_blank" class="seal-link youtube">YouTube</a>
-                    <a href="#" target="_blank" class="seal-link insta">Instagram</a>
-                    <a href="#" target="_blank" class="seal-link telegram">Telegram</a>
-                </div>
-            </div>
-
-            <div class="song-entry">
-                <div class="song-header">
-                    <span class="song-title">RÄDCHEN IM APPARAT</span>
-                    <span class="song-date">| Okt 2025</span>
-                </div>
-                <div class="song-links">
-                     <a href="#" target="_blank" class="seal-link youtube">YouTube</a>
-                    <a href="#" target="_blank" class="seal-link insta">Instagram</a>
-                    <a href="#" target="_blank" class="seal-link telegram">Telegram</a>
-                </div>
-            </div>
-            
-            </div>
+        <div class="music-list" id="music-container">
+            <p style="text-align:center; opacity:0.6;">Lade Pergament...</p>
+        </div>
     </section>
 
     <div class="separator">✻ ✻ ✻</div>
@@ -78,3 +54,61 @@
         
         <a href="mailto:devmatrose@proton.me?subject=Anfrage%20für%20einen%20Songtext%20%2B%20Soundversion" class="contact-button">
             Anfrage senden
+        </a>
+        <p class="contact-mail-plain">oder an: devmatrose@proton.me</p>
+    </section>
+
+    <footer>
+        <div class="separator-small">✻</div>
+        <p>&copy; 2025 Distelkind Art Project | Dresden <span style="color:#a83f3f;">❤</span></p>
+        <div class="footer-links">
+            <a href="https://www.youtube.com/channel/UC9S0LUR6NVs4MtO74kz8nJg" target="_blank">YouTube</a> | 
+            <a href="https://www.instagram.com/distelkind/" target="_blank">Instagram</a>
+        </div>
+    </footer>
+
+    <script>
+        // Datums-Formatierung
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short' };
+            return new Date(dateString).toLocaleDateString('de-DE', options);
+        }
+
+        // Lade die JSON Datei
+        fetch('titel-list.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Netzwerk-Antwort war nicht ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const container = document.getElementById('music-container');
+                container.innerHTML = ''; // "Lade..." Text entfernen
+
+                // Erstelle für jeden Song einen Eintrag
+                data.videos.forEach(video => {
+                    const songHTML = `
+                        <div class="song-entry">
+                            <div class="song-header">
+                                <span class="song-title">${video.title}</span>
+                                <span class="song-date">| ${formatDate(video.date)}</span>
+                            </div>
+                            <div class="song-links">
+                                <a href="${video.url}" target="_blank" class="seal-link youtube">YouTube</a>
+                                <a href="https://www.instagram.com/distelkind/" target="_blank" class="seal-link insta">Instagram</a>
+                                <a href="https://t.me/s/Distelkind" target="_blank" class="seal-link telegram">Telegram</a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += songHTML;
+                });
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden:', error);
+                document.getElementById('music-container').innerHTML = '<p>Die Seite konnte das Grimoire nicht lesen (JSON Fehler).</p>';
+            });
+    </script>
+
+</body>
+</html>
