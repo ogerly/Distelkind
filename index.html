@@ -159,20 +159,37 @@
         });
 
         // PWA Install Button
+        const installBtn = document.getElementById('install-app-btn');
+        
+        // Für Android/Chrome
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('install-app-btn').classList.remove('hidden');
+            if (installBtn) installBtn.classList.remove('hidden');
         });
 
-        document.getElementById('install-app-btn')?.addEventListener('click', async () => {
+        // iOS Safari Erkennung - zeige Button mit Anleitung
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+        
+        if (isIOS && !isInStandaloneMode && isMobile) {
+            if (installBtn) {
+                installBtn.classList.remove('hidden');
+                installBtn.innerHTML = '<span class="install-icon">📲</span><span>Tippe auf <strong>Teilen</strong> → "Zum Home-Bildschirm"</span>';
+            }
+        }
+
+        installBtn?.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
-                    document.getElementById('install-app-btn').classList.add('hidden');
+                    installBtn.classList.add('hidden');
                 }
                 deferredPrompt = null;
+            } else if (isIOS) {
+                // Für iOS zeige Info-Dialog
+                alert('Um diese App zu installieren:\n\n1. Tippe auf das Teilen-Symbol unten\n2. Scrolle runter\n3. Wähle "Zum Home-Bildschirm"');
             }
         });
 
