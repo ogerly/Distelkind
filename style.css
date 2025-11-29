@@ -66,7 +66,35 @@ section {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     background-color: var(--bg-color);
 }
-.subline { font-style: italic; font-size: 1.2rem; opacity: 0.8;}
+.subline { font-style: italic; font-size: 1.2rem; opacity: 0.9;}
+
+/* Social Links im Hero */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+.social-seal {
+    padding: 0.6rem 1.5rem;
+    border: 2px solid var(--line-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    position: relative;
+    background: var(--bg-color);
+    letter-spacing: 0.05em;
+    font-family: 'Cinzel', serif;
+}
+.social-seal::before { content: '✻ '; color: var(--accent-color);}
+.social-seal:hover {
+    border-color: var(--accent-color);
+    background: var(--accent-color);
+    color: var(--bg-color);
+    text-shadow: none;
+    transform: translateY(-2px);
+}
 
 /* --- Manifest --- */
 .manifest-section .content-block {
@@ -77,7 +105,46 @@ section {
 .signature { text-align: right; font-weight: bold; margin-top: 1.5rem; color: var(--accent-color);}
 
 /* --- Music Grimoire --- */
+.music-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.music-header h3 { margin: 0;}
+
+.view-toggle {
+    display: flex;
+    gap: 0.5rem;
+}
+.toggle-btn {
+    background: var(--bg-color);
+    border: 2px solid var(--line-color);
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+.toggle-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+.toggle-btn.active {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
 .music-list { margin-top: 2rem; text-align: left;}
+.music-grid { 
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
 .song-entry {
     border: 1px solid var(--line-color);
     padding: 1.5rem;
@@ -109,6 +176,76 @@ section {
     border-color: var(--accent-color);
     background: var(--accent-color);
     color: var(--bg-color);
+}
+
+/* --- Kachelansicht (Grid) --- */
+.song-card {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid var(--line-color);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+.song-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+    border-color: var(--accent-color);
+}
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+.card-thumbnail {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    overflow: hidden;
+    background: var(--line-color);
+}
+.card-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.song-card:hover .card-thumbnail img {
+    transform: scale(1.05);
+}
+.play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+.song-card:hover .play-overlay {
+    color: var(--accent-color);
+    transform: translate(-50%, -50%) scale(1.2);
+}
+.card-content {
+    padding: 1rem;
+    text-align: left;
+}
+.card-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+.card-date {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 /* --- Kontakt --- */
@@ -155,4 +292,8 @@ footer { margin-top: 4rem; padding-bottom: 2rem; font-size: 0.9rem; opacity: 0.8
     h1 { font-size: 2.5rem; }
     .profile-image { width: 140px; height: 140px; margin-top: -50px;}
     body { border-width: 10px; }
+    .music-header { flex-direction: column; text-align: center;}
+    .music-grid { grid-template-columns: 1fr; }
+    .social-links { gap: 0.5rem; }
+    .social-seal { padding: 0.5rem 1rem; font-size: 0.8rem; }
 }

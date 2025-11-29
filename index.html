@@ -22,6 +22,11 @@
             <h1>DISTELKIND</h1>
             <h2>Conscious HipHop aus Dresden</h2>
             <p class="subline">"Wachse, wenn alles schläft."</p>
+            <div class="social-links">
+                <a href="https://www.youtube.com/channel/UC9S0LUR6NVs4MtO74kz8nJg" target="_blank" class="social-seal youtube">YouTube</a>
+                <a href="https://www.instagram.com/distelkind/" target="_blank" class="social-seal instagram">Instagram</a>
+                <a href="https://web.telegram.org/k/#@distelkind_orginal" target="_blank" class="social-seal telegram">Telegram</a>
+            </div>
         </div>
     </header>
 
@@ -40,7 +45,13 @@
     <div class="separator">✻ ✻ ✻</div>
 
     <section class="music-section">
-        <h3>Das Grimoire (Klänge & Texte)</h3>
+        <div class="music-header">
+            <h3>Das Grimoire (Klänge & Texte)</h3>
+            <div class="view-toggle">
+                <button id="list-view" class="toggle-btn active" title="Listenansicht">☰</button>
+                <button id="grid-view" class="toggle-btn" title="Kachelansicht">⊞</button>
+            </div>
+        </div>
         <div class="music-list" id="music-container">
             <p style="text-align:center; opacity:0.6;">Lade Pergament...</p>
         </div>
@@ -63,16 +74,92 @@
         <p>&copy; 2025 Distelkind Art Project | Dresden <span style="color:#a83f3f;">❤</span></p>
         <div class="footer-links">
             <a href="https://www.youtube.com/channel/UC9S0LUR6NVs4MtO74kz8nJg" target="_blank">YouTube</a> | 
-            <a href="https://www.instagram.com/distelkind/" target="_blank">Instagram</a>
+            <a href="https://www.instagram.com/distelkind/" target="_blank">Instagram</a> | 
+            <a href="https://web.telegram.org/k/#@distelkind_orginal" target="_blank">Telegram</a>
         </div>
     </footer>
 
     <script>
+        let currentView = 'list'; // 'list' oder 'grid'
+        let videosData = [];
+
+        // YouTube Video-ID aus URL extrahieren
+        function getYouTubeID(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         // Datums-Formatierung
         function formatDate(dateString) {
             const options = { year: 'numeric', month: 'short' };
             return new Date(dateString).toLocaleDateString('de-DE', options);
         }
+
+        // Rendere die Videos in der aktuellen Ansicht
+        function renderVideos() {
+            const container = document.getElementById('music-container');
+            container.innerHTML = '';
+            container.className = currentView === 'grid' ? 'music-grid' : 'music-list';
+
+            videosData.forEach(video => {
+                const videoID = getYouTubeID(video.url);
+                const thumbnail = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+                if (currentView === 'list') {
+                    // Listenansicht
+                    const songHTML = `
+                        <div class="song-entry">
+                            <div class="song-header">
+                                <span class="song-title">${video.title}</span>
+                                <span class="song-date">| ${formatDate(video.date)}</span>
+                            </div>
+                            <div class="song-links">
+                                <a href="${video.url}" target="_blank" class="seal-link youtube">▶ Auf YouTube ansehen</a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += songHTML;
+                } else {
+                    // Kachelansicht mit Vorschaubild
+                    const cardHTML = `
+                        <div class="song-card">
+                            <a href="${video.url}" target="_blank" class="card-link">
+                                <div class="card-thumbnail">
+                                    <img src="${thumbnail}" alt="${video.title}" loading="lazy">
+                                    <div class="play-overlay">▶</div>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">${video.title}</h4>
+                                    <p class="card-date">${formatDate(video.date)}</p>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                }
+            });
+        }
+
+        // Toggle zwischen Listen- und Kachelansicht
+        document.addEventListener('DOMContentLoaded', () => {
+            const listBtn = document.getElementById('list-view');
+            const gridBtn = document.getElementById('grid-view');
+
+            listBtn.addEventListener('click', () => {
+                currentView = 'list';
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                renderVideos();
+            });
+
+            gridBtn.addEventListener('click', () => {
+                currentView = 'grid';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                renderVideos();
+            });
+        });
 
         // Lade die JSON Datei
         fetch('titel-list.json')
@@ -83,26 +170,8 @@
                 return response.json();
             })
             .then(data => {
-                const container = document.getElementById('music-container');
-                container.innerHTML = ''; // "Lade..." Text entfernen
-
-                // Erstelle für jeden Song einen Eintrag
-                data.videos.forEach(video => {
-                    const songHTML = `
-                        <div class="song-entry">
-                            <div class="song-header">
-                                <span class="song-title">${video.title}</span>
-                                <span class="song-date">| ${formatDate(video.date)}</span>
-                            </div>
-                            <div class="song-links">
-                                <a href="${video.url}" target="_blank" class="seal-link youtube">YouTube</a>
-                                <a href="https://www.instagram.com/distelkind/" target="_blank" class="seal-link insta">Instagram</a>
-                                <a href="https://t.me/s/Distelkind" target="_blank" class="seal-link telegram">Telegram</a>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += songHTML;
-                });
+                videosData = data.videos;
+                renderVideos();
             })
             .catch(error => {
                 console.error('Fehler beim Laden:', error);
