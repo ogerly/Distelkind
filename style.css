@@ -365,3 +365,181 @@ footer { margin-top: 4rem; padding-bottom: 2rem; font-size: 0.9rem; opacity: 0.8
     .social-links { gap: 0.5rem; }
     .social-seal { padding: 0.5rem 1rem; font-size: 0.8rem; }
 }
+
+
+
+/* ================= ANIMATIONEN ================= */
+
+/* Pulsierendes Profilbild */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(168, 63, 63, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(168, 63, 63, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(168, 63, 63, 0); }
+}
+
+.profile-image {
+    animation: pulse-red 3s infinite;
+}
+
+/* Schwebende/atmende Animation für Banner */
+@keyframes float-breathe {
+    0%, 100% { 
+        transform: translateY(0px) scale(1);
+        filter: brightness(1);
+    }
+    50% { 
+        transform: translateY(-8px) scale(1.01);
+        filter: brightness(1.05);
+    }
+}
+
+.hero-banner {
+    animation: float-breathe 6s ease-in-out infinite;
+}
+
+/* Rotierende/pulsierende Trennzeichen */
+@keyframes rotate-pulse {
+    0%, 100% { 
+        transform: rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+    25% { 
+        transform: rotate(90deg) scale(1.1);
+        opacity: 0.9;
+    }
+    50% { 
+        transform: rotate(180deg) scale(1);
+        opacity: 0.7;
+    }
+    75% { 
+        transform: rotate(270deg) scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+.separator {
+    display: inline-block;
+    animation: rotate-pulse 12s ease-in-out infinite;
+}
+
+/* Glühender Text-Effekt für Überschriften */
+@keyframes glow-text {
+    0%, 100% { 
+        text-shadow: 0 0 5px rgba(168, 63, 63, 0.3);
+    }
+    50% { 
+        text-shadow: 0 0 20px rgba(168, 63, 63, 0.6),
+                     0 0 30px rgba(168, 63, 63, 0.4);
+    }
+}
+
+h1 {
+    animation: glow-text 4s ease-in-out infinite;
+}
+
+/* Schwebende Animation für Social Seals */
+@keyframes float-gentle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+.social-seal {
+    transition: all 0.3s ease;
+}
+
+.social-seal:hover {
+    animation: float-gentle 1s ease-in-out infinite;
+}
+
+/* Flackerndes Licht-Effekt für aktive Buttons */
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.95; }
+    75% { opacity: 0.98; }
+}
+
+.toggle-btn.active {
+    animation: flicker 2s ease-in-out infinite;
+}
+
+/* Subtile Bewegung für Song Entries beim Laden */
+@keyframes fade-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.song-entry, .song-card {
+    animation: fade-slide-in 0.6s ease-out forwards;
+}
+
+.song-entry:nth-child(1), .song-card:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+.song-entry:nth-child(2), .song-card:nth-child(2) { animation-delay: 0.2s; opacity: 0; }
+.song-entry:nth-child(3), .song-card:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
+.song-entry:nth-child(4), .song-card:nth-child(4) { animation-delay: 0.4s; opacity: 0; }
+.song-entry:nth-child(5), .song-card:nth-child(5) { animation-delay: 0.5s; opacity: 0; }
+.song-entry:nth-child(n+6), .song-card:nth-child(n+6) { animation-delay: 0.6s; opacity: 0; }
+
+/* Mystischer Partikel-Effekt für den Hintergrund */
+@keyframes float-particles {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(50px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+body::before {
+    content: '✻';
+    position: fixed;
+    bottom: -50px;
+    left: 10%;
+    font-size: 2rem;
+    color: var(--accent-color);
+    opacity: 0;
+    animation: float-particles 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+body::after {
+    content: '✻';
+    position: fixed;
+    bottom: -50px;
+    right: 20%;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    opacity: 0;
+    animation: float-particles 20s ease-in-out infinite 5s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Subtile Schatten-Animation für Contact Button */
+@keyframes shadow-pulse {
+    0%, 100% {
+        box-shadow: 5px 5px 0px var(--line-color);
+    }
+    50% {
+        box-shadow: 8px 8px 15px rgba(168, 63, 63, 0.3), 
+                    5px 5px 0px var(--line-color);
+    }
+}
+
+.contact-button {
+    animation: shadow-pulse 3s ease-in-out infinite;
+}
