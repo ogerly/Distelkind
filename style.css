@@ -1,0 +1,158 @@
+/* ================= GRUNDEINSTELLUNGEN & FARBEN ================= */
+:root {
+    --bg-color: #f4e4bc; /* Helles Pergament */
+    --text-color: #1a1a1a; /* Fast Schwarz (Tusche) */
+    --accent-color: #a83f3f; /* Alchemisten-Rot */
+    --line-color: #3e3e3e; /* Dunkelgrau für Linien */
+}
+
+/* Pergament-Hintergrund Textur */
+body {
+    background-color: var(--bg-color);
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'); /* Subtile Papiertextur */
+    color: var(--text-color);
+    font-family: 'Cormorant Garamond', serif; /* Klassische Schrift für Fließtext */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    text-align: center;
+    border: 20px solid transparent;
+    border-image: url('https://i.imgur.com/3k93gY7.png') 30 stretch; /* Ein einfacher Rahmen im alten Stil */
+}
+
+/* Überschriften Stil (Fraktur-ähnlich) */
+h1, h2, h3 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+h1 { font-size: 3.5rem; color: var(--text-color); margin-top: 1rem;}
+h2 { font-size: 1.5rem; color: var(--accent-color); }
+h3 { font-size: 2rem; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 10px; margin-top: 2rem;}
+
+/* Links */
+a { color: var(--accent-color); text-decoration: none; transition: all 0.3s ease;}
+a:hover { color: var(--text-color); text-shadow: 0 0 5px var(--accent-color);}
+
+/* Trenner */
+.separator { font-size: 2rem; color: var(--accent-color); margin: 3rem 0; opacity: 0.7;}
+.separator-small { font-size: 1.5rem; color: var(--accent-color); margin: 1rem 0;}
+
+/* ================= SECTIONS ================= */
+section {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* --- Hero Section --- */
+.hero-section { padding-top: 0; }
+.banner-container { width: 100%; overflow: hidden; border-bottom: 3px double var(--line-color); }
+.hero-banner { width: 100%; height: auto; display: block;}
+
+.profile-container {
+    margin-top: -70px; /* Schiebt das Profilbild in das Banner */
+    position: relative;
+    z-index: 10;
+}
+.profile-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 4px double var(--accent-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background-color: var(--bg-color);
+}
+.subline { font-style: italic; font-size: 1.2rem; opacity: 0.8;}
+
+/* --- Manifest --- */
+.manifest-section .content-block {
+    font-size: 1.15rem;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.signature { text-align: right; font-weight: bold; margin-top: 1.5rem; color: var(--accent-color);}
+
+/* --- Music Grimoire --- */
+.music-list { margin-top: 2rem; text-align: left;}
+.song-entry {
+    border: 1px solid var(--line-color);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: rgba(255,255,255,0.1);
+    position: relative;
+    /* Kleine Ecken-Markierungen */
+    background-image: linear-gradient(var(--accent-color), var(--accent-color)), linear-gradient(var(--accent-color), var(--accent-color)), linear-gradient(var(--accent-color), var(--accent-color)), linear-gradient(var(--accent-color), var(--accent-color));
+    background-repeat: no-repeat;
+    background-size: 8px 2px, 2px 8px, 8px 2px, 2px 8px;
+    background-position: top left, top left, bottom right, bottom right;
+}
+.song-header { margin-bottom: 1rem; border-bottom: 1px dashed var(--line-color); padding-bottom: 0.5rem;}
+.song-title { font-family: 'Cinzel Decorative', cursive; font-size: 1.3rem; font-weight: bold; display: block;}
+.song-date { color: var(--accent-color); font-size: 0.9rem;}
+
+.song-links { display: flex; gap: 1rem; flex-wrap: wrap;}
+.seal-link {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--line-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    position: relative;
+    background: var(--bg-color);
+}
+.seal-link::before { content: '✻ '; color: var(--accent-color);}
+.seal-link:hover {
+    border-color: var(--accent-color);
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+
+/* --- Kontakt --- */
+.contact-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 3rem;
+    background-color: var(--bg-color);
+    border: 3px double var(--accent-color);
+    color: var(--accent-color);
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 5px 5px 0px var(--line-color);
+    transition: all 0.2s ease;
+}
+.contact-button:hover {
+    box-shadow: 2px 2px 0px var(--line-color);
+    transform: translate(3px, 3px);
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+.contact-mail-plain { margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;}
+
+/* --- Footer --- */
+footer { margin-top: 4rem; padding-bottom: 2rem; font-size: 0.9rem; opacity: 0.8;}
+.footer-links a { margin: 0 10px;}
+
+/* ================= ANIMATIONEN ================= */
+/* Ein subtiles Pulsieren für das Banner oder Profilbild */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(168, 63, 63, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(168, 63, 63, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(168, 63, 63, 0); }
+}
+
+.profile-image {
+    animation: pulse-red 3s infinite;
+}
+
+/* Media Queries für Mobile */
+@media (max-width: 600px) {
+    h1 { font-size: 2.5rem; }
+    .profile-image { width: 140px; height: 140px; margin-top: -50px;}
+    body { border-width: 10px; }
+}
